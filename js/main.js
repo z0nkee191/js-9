@@ -6,7 +6,7 @@ const logItems = (arrayFunc) => {
         a++;
     }
 }
-console.log(logItems(array1));
+logItems(array1);
 
 const calculateEngravingPrice = (message, pricePerWord) => {
     const trimmedMessage = message.trim();
@@ -25,13 +25,16 @@ const calculateEngravingPrice = (message, pricePerWord) => {
 }
 
 const userMessage = prompt(`enter message`);
-const userPricePerWord = prompt(`enter price per word`);
+const userPricePerWord = Number(prompt(`enter price per word`));
 const funcReturn = calculateEngravingPrice(userMessage, userPricePerWord);
 console.log(funcReturn);
 
 
 const userString = prompt(`enter something with the gap`);
-const findLongestWord = (string) =>{
+const findLongestWord = (string) => {
+    if (!string) {
+        return "Ввод отменен";
+    }
     const stringSplited = string.split(" ");
     let max = stringSplited[0].length; 
     let maxNotLength = stringSplited[0];
@@ -44,7 +47,11 @@ const findLongestWord = (string) =>{
     console.log(maxNotLength);
     return max;
 }
-console.log(findLongestWord(userString));
+if (userString !== null) {
+    console.log(findLongestWord(userString));
+} else {
+    console.log("enter canceled by user");
+}
 
 
 const userInfo = prompt(`enter something with 40 elements`);
@@ -55,29 +62,37 @@ const formatString = (string) => {
         return string.slice(0, 40) + '...';
     }
 }
-console.log(formatString(userInfo));
-
-const userStr = prompt(`enter something`).toLowerCase();
-const checkForSpam = (message) => {
-    const userStrArray = message.split(" ");
-    let check = false;
-    for (let i = 0; i < userStrArray.length; i++) {
-        if (userStrArray[i] === "spam" || userStrArray[i] === "sale") {
-            check = true;
-            break;
-        } else {
-            continue;
-        }
-    }
-    return check;
+if (userInfo !== null) {
+    console.log(formatString(userInfo));
+} else {
+    console.log("enter canceled");
 }
 
-console.log(checkForSpam(userStr));
+
+const userStr = prompt(`enter something`);
+if (userStr !== null) {
+    const lowerUserStr = userStr.toLowerCase();
+    const checkForSpam = (message) => {
+        const userStrArray = message.split(" ");
+        let check = false;
+        for (let i = 0; i < userStrArray.length; i++) {
+            if (userStrArray[i] === "spam" || userStrArray[i] === "sale") {
+                check = true;
+                break;
+            }
+        }
+        return check;
+    }
+    console.log(checkForSpam(lowerUserStr));
+} else {
+    console.log("enter canceled");
+}
+
 
 const numbers = [];
 
 while (true) {
-    const input = Number(prompt(`enter number`));
+    const input = prompt(`enter number`);
     if (input === null) {
         break;
     }
@@ -99,24 +114,23 @@ if (numbers.length > 0) {
     console.log(`масив порожній, немає чого сумувати`);
 }
 
+
 const logins = ['admin', '111', 'zonkee'];
 const userLogin = prompt(`enter unique login`); 
 
 function isLoginValid(login) {
-    let check = false;
-    if (login.length > 4 && login.length < 16) {
-        check = true;
-    } else {
-        check = false;
-    }
-    return check;
+    if (!login) return false;
+    return login.length >= 4 && login.length <= 16;
 }
+
 function isLoginUnique(allLogins, login) {
     return !allLogins.includes(login);
 }
+
 function addLogin(allLogins, login) {
-    if (isLoginValid(login) === true) {
-        if (isLoginUnique(allLogins, login) === true) {
+    if (!login) return 'Відказано';
+    if (isLoginValid(login)) {
+        if (isLoginUnique(allLogins, login)) {
             allLogins.push(login);
             return 'Логін успішно доданий!'; 
         } else {
